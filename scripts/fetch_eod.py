@@ -2,10 +2,10 @@
 
 from pathlib import Path
 import yaml
-from brapi_client import fetch_daily_history, BrapiError
+from scripts.brapi_client import fetch_daily_history, BrapiError
 
 # Caminhos
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CONFIG_PATH = BASE_DIR / "config" / "config.yml"
 
 # Config
@@ -16,12 +16,11 @@ assets = config["market"]["assets"]
 output_dir = Path(config["data"]["path_raw"]) / "eod"
 output_dir.mkdir(parents=True, exist_ok=True)
 
-# Coleta EOD (1d, 3mo - fixo)
-print(f"Coletando EOD para {len(assets)} ativos (1d, 3mo)...")
+# Coleta EOD
 for asset in assets:
     try:
         df = fetch_daily_history(asset)
-        df.to_parquet(output_dir / f"{asset}.parquet")
-        print(f"✓ {asset}: {len(df)} registros")
+        df.to_csv(output_dir / f"{asset}.csv")
+        print(f"{asset}: {len(df)} registros")
     except BrapiError as e:
-        print(f"✗ {asset}: {e}")
+        print(f"{asset}: {e}")

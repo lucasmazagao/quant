@@ -21,10 +21,6 @@ class BrapiError(Exception): pass
 class BrapiAuthError(BrapiError): pass
 class BrapiDataError(BrapiError): pass
 
-# =============================================================================
-# FUNÇÕES AUXILIARES
-# =============================================================================
-
 def _request(path: str, params: Dict, retries: int = RETRIES, 
              backoff: float = BACKOFF) -> Dict:
     """Faz requisição HTTP com retry automático."""
@@ -52,13 +48,7 @@ def _request(path: str, params: Dict, retries: int = RETRIES,
 
     raise BrapiError("Erro na requisição")
 
-
-# =============================================================================
-# FUNÇÕES PRINCIPAIS DE COLETA
-# =============================================================================
-
 def fetch_daily_history(ticker: str) -> pd.DataFrame:
-    """Busca histórico de preços diários (1d, 3mo) de um ativo."""
     try:
         data = _request(f"/quote/{ticker}", {"range": "3mo", "interval": "1d"})
         
@@ -117,25 +107,24 @@ def _normalize_df(df: pd.DataFrame) -> pd.DataFrame:
     
     return df[available]
 
-def save_to_parquet(dataframes: Dict[str, pd.DataFrame], output_dir: Path) -> None:
-    """Salva DataFrames em arquivos Parquet."""
+def save_to_csv(dataframes: Dict[str, pd.DataFrame], output_dir: Path) -> None:
+    """Salva DataFrames em arquivos CSV."""
     output_dir.mkdir(parents=True, exist_ok=True)
     
     for ticker, df in dataframes.items():
         try:
-            df.to_parquet(output_dir / f"{ticker}.parquet")
+            df.to_csv(output_dir / f"{ticker}.csv")
         except Exception as e:
             print(f"Erro ao salvar {ticker}: {e}")
 
-def load_from_parquet(input_dir: Path) -> Dict[str, pd.DataFrame]:
-    """Carrega DataFrames de arquivos Parquet."""
+def load_from_csv(input_dir: Path) -> Dict[str, pd.DataFrame]:
     dataframes = {}
     
-    for parquet_file in input_dir.glob("*.parquet"):
+    for csv_file in input_dir.glob("*.csv"):
         try:
-            dataframes[parquet_file.stem] = pd.read_parquet(parquet_file)
+            df = pd.read_csv(csv_file, index_col=0, parse_dates=True)
+            dataframes[csv_file.stem] = df
         except Exception as e:
-            print(f"Erro ao carregar {parquet_file.stem}: {e}")
+            print(f"Erro ao carregar {csv_file.stem}: {e}")
     
     return dataframes
-

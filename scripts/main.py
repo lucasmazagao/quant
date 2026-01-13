@@ -6,11 +6,6 @@
 5. Model training
 6. Signal generation
 7. Risk management
-
-Uso:
-    python main.py                    # Executa tudo
-    python main.py --only-data        # Só coleta dados
-    python main.py --only-processing  # Só processamento
 """
 
 import subprocess
