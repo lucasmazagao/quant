@@ -1,5 +1,5 @@
 """Orquestra a execução completa do pipeline:
-1. Coleta de dados (EOD + Fundamentals)
+1. Coleta de dados (EOD)
 2. Padronização e limpeza
 3. Feature engineering
 4. Labeling
@@ -41,6 +41,7 @@ def run_script(script: str) -> bool:
 def main():
     steps = [
         ("Coleta EOD", "fetch_eod.py"),
+        ("Padronização e Limpeza", "clean_data.py"),
         # ("Feature Engineering", "features.py"),
         # ("Labeling", "labeling.py"),
         # ("Training", "train_model.py"),

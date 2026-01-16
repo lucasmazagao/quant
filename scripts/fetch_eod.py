@@ -2,10 +2,10 @@
 
 from pathlib import Path
 import yaml
-from scripts.brapi_client import fetch_daily_history, BrapiError
+from brapi_client import fetch_daily_history, BrapiError
 
 # Caminhos
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_PATH = BASE_DIR / "config" / "config.yml"
 
 # Config

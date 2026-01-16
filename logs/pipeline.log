@@ -1,0 +1,18 @@
+[2026-01-16 12:39:30] 
+[Etapa 1/1] Coleta EOD
+[2026-01-16 12:39:30] Executando fetch_eod.py
+[2026-01-16 12:39:30] fetch_eod.py falhou: Traceback (most recent call last):
+  File "/Users/lucasmazagao/Documents/quant/scripts/fetch_eod.py", line 5, in <module>
+    from scripts.brapi_client import fetch_daily_history, BrapiError
+ModuleNot
+[2026-01-16 12:39:30] Pipeline interrompido em: Coleta EOD
+[2026-01-16 12:51:42] 
+[Etapa 1/2] Coleta EOD
+[2026-01-16 12:51:42] Executando fetch_eod.py
+[2026-01-16 12:51:48] fetch_eod.py concluído
+[2026-01-16 12:51:48] Etapa concluída: Coleta EOD
+[2026-01-16 12:51:48] 
+[Etapa 2/2] Padronização e Limpeza
+[2026-01-16 12:51:48] Executando clean_data.py
+[2026-01-16 12:51:48] clean_data.py concluído
+[2026-01-16 12:51:48] Etapa concluída: Padronização e Limpeza
